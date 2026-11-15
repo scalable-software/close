@@ -471,6 +471,14 @@ state(State.STATUS, () => {
             });
           });
         });
+
+        then("assigning `close.status` outside the close does not compile", () => {
+          const assign = () => {
+            // @ts-expect-error: `status` is readonly, only the close changes it
+            close.status = Status.PRESSED;
+          };
+          expect(assign).toEqual(jasmine.any(Function));
+        });
       });
 
       and(
