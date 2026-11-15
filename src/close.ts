@@ -11,6 +11,9 @@ import { Tag, CSS, Attributes, Visibility } from "./close.meta.js";
 
 import { type Meta } from "./close.meta.js";
 
+// Validation
+import { Validate } from "./close.validation.js";
+
 /**
  * Optional Configuration: required for components with custom layout and style
  * @category Configuration
@@ -81,6 +84,9 @@ export class Close extends Component implements Meta {
     return this._visibility;
   }
   public set visibility(visibility: Visibility) {
+    // Validate
+    visibility = Validate.visibility(visibility);
+
     // Mutate
     this._visibility = visibility;
   }
