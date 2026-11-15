@@ -101,6 +101,13 @@ export class Close extends Component implements Meta {
   private _onshow: EventListener | null = null;
 
   /**
+   * onclose triggered each time closing is requested
+   * @category Events
+   * @hidden
+   */
+  private _onclose: EventListener | null = null;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -200,6 +207,17 @@ export class Close extends Component implements Meta {
    */
   public set onshow(handler: EventListener | null) {
     this._onshow = this._subscribe(Event.ON_SHOW, this._onshow, handler);
+  }
+
+  /**
+   * Triggered each time closing is requested, by a gesture or via `.close()`.
+   * Deliberately replaces the `onclose` property every HTML element has:
+   * on the close button it subscribes to the component's own `onclose` event.
+   * @event
+   * @category Events
+   */
+  public set onclose(handler: EventListener | null) {
+    this._onclose = this._subscribe(Event.ON_CLOSE, this._onclose, handler);
   }
 
   /**
