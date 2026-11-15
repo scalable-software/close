@@ -243,6 +243,22 @@ state(State.VISIBILITY, () => {
         then("`visibility` attribute does not exist", () => {
           expect(close.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
         });
+
+        then("`close.visibility` setter exists", () => {
+          expect(hasSetter(close, "visibility")).toBeTrue();
+        });
+
+        and("`close.visibility` setter exists", () => {
+          when("`close.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              close.visibility = Visibility.HIDDEN;
+            });
+
+            then("`close.visibility` is `Visibility.HIDDEN`", () => {
+              expect(close.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+        });
       });
     });
   });
