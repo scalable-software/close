@@ -3,6 +3,8 @@ html {
   height: 100%;
   background-color: var(--background-color);
   color: var(--text-color);
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
 }
 
 body {
@@ -17,6 +19,8 @@ body {
 :root {
   --background-color: #ffffff;
   --text-color: #000000;
+  --line-color: #d1d1d1;
+  --control-background-color: #f3f3f3;
 }
 
 /* Dark Mode Styles */
@@ -24,11 +28,77 @@ body {
   :root {
     --background-color: #1e1e1e;
     --text-color: #f0f0f0;
+    --line-color: #3c3c3c;
+    --control-background-color: #2a2a2a;
   }
 }
 
-close-button {
-  position: absolute;
-  left: 48px;
-  top: 48px;
+/* The stage: the component, in a band across the top */
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  padding: 24px;
+  border-bottom: 1px solid var(--line-color);
+}
+
+/* The controls: one column for each group, stacked on a narrow window */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.controls section {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line-color);
+  border-radius: 8px;
+}
+
+.controls h2 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.controls button,
+.controls select {
+  padding: 4px 12px;
+  border: 1px solid var(--line-color);
+  border-radius: 4px;
+  background-color: var(--control-background-color);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Operations */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* States */
+.list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  align-items: center;
+  margin: 0;
+}
+
+.list dd {
+  margin: 0;
+}
+
+/* Events */
+.log {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: ui-monospace, monospace;
+  overflow-wrap: anywhere;
 }

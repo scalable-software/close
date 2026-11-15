@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Close</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="html.style.css" />
 
@@ -11,6 +12,27 @@
 
   <body>
     <script src="index.js" type="module"></script>
-    <close-button></close-button>
+
+    <div class="stage">
+      <close-button></close-button>
+    </div>
+
+    <main class="controls">
+      <section class="operations">
+        <h2>Operations</h2>
+        <div class="buttons"></div>
+      </section>
+
+      <section class="states">
+        <h2>States</h2>
+        <dl class="list"></dl>
+      </section>
+
+      <section class="events">
+        <h2>Events</h2>
+        <button class="clear" type="button">Clear</button>
+        <ol class="log"></ol>
+      </section>
+    </main>
   </body>
 </html>
