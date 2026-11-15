@@ -417,6 +417,29 @@ state(State.STATUS, () => {
             const value = close.getAttribute(Attributes.STATUS);
             expect(value).toBe(Status.RELEASED);
           });
+
+          when("`status` attribute is set to `Status.PRESSED`", () => {
+            let errors: number;
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
+                close.setAttribute(Attributes.STATUS, Status.PRESSED);
+                errors = reported.calls.count();
+              });
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toBe(Status.RELEASED);
+            });
+
+            then("no error is reported", () => {
+              expect(errors).toBe(0);
+            });
+          });
         });
       });
     });
