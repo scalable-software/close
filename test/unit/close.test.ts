@@ -693,6 +693,19 @@ operation(Operation.HIDE, () => {
         then("`close.hide` method exists", () => {
           expect(close.hide).toBeDefined();
         });
+
+        and("`close.hide` method exists", () => {
+          when("invoking `close.hide`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = close.hide();
+            });
+
+            then("`close.visibility` is `Visibility.HIDDEN`", () => {
+              expect(close.visibility).toBe(Visibility.HIDDEN);
+            });
+          });
+        });
       });
     });
   });
