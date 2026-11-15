@@ -1461,6 +1461,20 @@ gesture(Gesture.KEYDOWN, () => {
             expect(onclose).toHaveBeenCalledTimes(1);
           });
         });
+
+        when("user presses another key on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(new KeyboardEvent(Gesture.KEYDOWN, { key: "a" }));
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
