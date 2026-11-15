@@ -386,10 +386,14 @@ export class Close extends Component implements Meta {
   private _handleIconClick = () => this.close();
 
   /**
-   * Handles a key pressed on the icon: Enter or Space presses the close button
+   * Handles a key pressed on the icon: Enter or Space presses the close button,
+   * and the page does not scroll
    * @category Gesture
    * @hidden
    */
-  private _handleIconKeydown = (event: KeyboardEvent) =>
-    (event.key === Key.ENTER || event.key === Key.SPACE) && this._press();
+  private _handleIconKeydown = (event: KeyboardEvent) => {
+    if (event.key !== Key.ENTER && event.key !== Key.SPACE) return;
+    event.preventDefault();
+    this._press();
+  };
 }
