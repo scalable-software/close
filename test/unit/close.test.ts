@@ -1717,6 +1717,33 @@ gesture(Gesture.KEYUP, () => {
             expect(onclose).not.toHaveBeenCalled();
           });
         });
+
+        and("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
+          });
+
+          when("user lifts another key on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new KeyboardEvent(Gesture.KEYUP, { key: "a" }));
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
+
+            then("`close.status` is `Status.PRESSED`", () => {
+              expect(close.status).toEqual(Status.PRESSED);
+            });
+          });
+        });
       });
     });
   });
