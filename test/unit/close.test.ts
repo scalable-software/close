@@ -1540,11 +1540,16 @@ gesture(Gesture.KEYDOWN, () => {
 
         when("user presses another key on `div` with class `icon`", () => {
           let onclose: jasmine.Spy;
+          let event: KeyboardEvent;
           beforeEach(() => {
             onclose = jasmine.createSpy("onclose");
             close.onclose = onclose;
+            event = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: "a",
+              cancelable: true
+            });
             const icon = close.root.querySelector(".icon") as HTMLElement;
-            icon.dispatchEvent(new KeyboardEvent(Gesture.KEYDOWN, { key: "a" }));
+            icon.dispatchEvent(event);
           });
 
           then("`onclose` is not called", () => {
@@ -1553,6 +1558,10 @@ gesture(Gesture.KEYDOWN, () => {
 
           then("`close.status` is `Status.RELEASED`", () => {
             expect(close.status).toEqual(Status.RELEASED);
+          });
+
+          then("the default is not prevented", () => {
+            expect(event.defaultPrevented).toBeFalse();
           });
         });
       });
