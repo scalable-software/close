@@ -48,7 +48,7 @@ The **Close** component provides a press button that requests closing and can be
 This walkthrough demonstrates how to interact with `<close-button>` right after installation, letting you see how the close button behaves before exploring its internal design.
 
 1. **Open** the served page in your browser.
-   - The `<close-button>` is shown in a band across the top. Below it are three groups: **Operations**, **States** and **Events**.
+   - The `<close-button>` is shown in a band across the top. Below it are three groups: **States**, **Operations** and **Events**.
 
 2. **Press and hold** the `<close-button>`.
    - It looks pressed, and the **States** group shows `status` as `pressed` for as long as you hold it.
