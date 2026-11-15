@@ -259,6 +259,16 @@ state(State.VISIBILITY, () => {
             });
           });
 
+          when("`close.visibility` is set to `null`", () => {
+            beforeEach(() => {
+              close.visibility = null;
+            });
+
+            then("`close.visibility` is `Visibility.VISIBLE`", () => {
+              expect(close.visibility).toBe(Visibility.VISIBLE);
+            });
+          });
+
           when("`close.visibility` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
