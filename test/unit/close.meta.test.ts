@@ -243,6 +243,14 @@ metadata(Metadata.OPERATION, () => {
         then("`Operation.SHOW` is `show`", () => {
           expect(Operation.SHOW).toBe("show");
         });
+
+        then("`Operation.CLOSE` exists", () => {
+          expect(Operation.CLOSE).toBeDefined();
+        });
+
+        then("`Operation.CLOSE` is `close`", () => {
+          expect(Operation.CLOSE).toBe("close");
+        });
       });
     });
   });
