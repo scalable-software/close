@@ -1154,6 +1154,36 @@ events(Event.ON_CLOSE, () => {
               });
             });
 
+            when("`close.onclose` is set to `invalid`", () => {
+              let error: Error;
+              beforeEach(() => {
+                try {
+                  // @ts-expect-error
+                  close.onclose = "invalid";
+                } catch (err) {
+                  error = err as Error;
+                }
+              });
+
+              then("an error is thrown", () => {
+                expect(error).toBeDefined();
+              });
+
+              then("error message contains 'Invalid onclose value: invalid'", () => {
+                expect(error.message).toBe("Invalid onclose value: invalid");
+              });
+
+              when("invoking `close.close`", () => {
+                beforeEach(() => {
+                  close.close();
+                });
+
+                then("`close.onclose` is still called", () => {
+                  expect(onclose).toHaveBeenCalled();
+                });
+              });
+            });
+
           });
         });
       });
