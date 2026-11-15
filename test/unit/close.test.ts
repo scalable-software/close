@@ -715,6 +715,37 @@ operation(Operation.HIDE, () => {
   });
 });
 
+operation(Operation.SHOW, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.show` method exists", () => {
+          expect(close.show).toBeDefined();
+        });
+      });
+    });
+  });
+});
+
 // Event
 
 // Gesture
