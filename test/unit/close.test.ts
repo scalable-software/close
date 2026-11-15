@@ -11,7 +11,8 @@ import {
   Appearance,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Key
 } from "@scalable.software/close";
 
 // Configuration
@@ -1395,6 +1396,49 @@ gesture(Gesture.CLICK, () => {
             close.onclose = onclose;
             const icon = close.root.querySelector(".icon") as HTMLElement;
             icon.click();
+          });
+
+          then("`onclose` is called", () => {
+            expect(onclose).toHaveBeenCalledTimes(1);
+          });
+        });
+      });
+    });
+  });
+});
+
+gesture(Gesture.KEYDOWN, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        when("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
           });
 
           then("`onclose` is called", () => {
