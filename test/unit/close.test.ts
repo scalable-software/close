@@ -1,6 +1,13 @@
 import { Template } from "@scalable.software/component";
 
-import { Close, Tag, CSS, Attributes } from "@scalable.software/close";
+import {
+  Close,
+  Tag,
+  CSS,
+  Attributes,
+  State,
+  Visibility
+} from "@scalable.software/close";
 
 // Configuration
 configuration(Configuration.TAG, () => {
@@ -200,6 +207,46 @@ composition(Composition.ELEMENT, () => {
 });
 
 // State
+state(State.VISIBILITY, () => {
+  given("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.visibility` getter exists", () => {
+          expect(close.visibility).toBeDefined();
+        });
+
+        when("`close.visibility` getter exists", () => {
+          then("`close.visibility` is `Visibility.VISIBLE`", () => {
+            expect(close.visibility).toBe(Visibility.VISIBLE);
+          });
+        });
+
+        then("`visibility` attribute does not exist", () => {
+          expect(close.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+        });
+      });
+    });
+  });
+});
 
 // Operation
 
