@@ -573,6 +573,19 @@ state(State.APPEARANCE, () => {
                 expect(close.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
               });
             });
+
+            when("`appearance` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  close.setAttribute(Attributes.APPEARANCE, "invalid");
+                });
+              });
+
+              then("`appearance` attribute is `Appearance.FLAT`", () => {
+                const value = close.getAttribute(Attributes.APPEARANCE);
+                expect(value).toBe(Appearance.FLAT);
+              });
+            });
           });
 
           when("`appearance` attribute is set to `Appearance.FLAT`", () => {
