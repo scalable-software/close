@@ -327,6 +327,10 @@ export class Close extends Component implements Meta {
       Gesture.KEYDOWN,
       this._handleIconKeydown
     );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupClose
+    );
   };
 
   /**
@@ -354,6 +358,10 @@ export class Close extends Component implements Meta {
     this.elements.icon?.removeEventListener(
       Gesture.KEYDOWN,
       this._handleIconKeydown
+    );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupClose
     );
   };
 
@@ -396,4 +404,15 @@ export class Close extends Component implements Meta {
     event.preventDefault();
     this._press();
   };
+
+  /**
+   * Handles a key lifted on the icon: Enter or Space requests closing
+   * when the close button is pressed
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupClose = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) &&
+    this.status === Status.PRESSED &&
+    this.close();
 }
