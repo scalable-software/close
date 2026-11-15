@@ -7,7 +7,9 @@ import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
 // Close Metadata
-import { Tag, CSS, Attributes } from "./close.meta.js";
+import { Tag, CSS, Attributes, Visibility } from "./close.meta.js";
+
+import { type Meta } from "./close.meta.js";
 
 /**
  * Optional Configuration: required for components with custom layout and style
@@ -26,7 +28,7 @@ export const configuration: Configuration = {
 /**
  * @category Close
  */
-export class Close extends Component {
+export class Close extends Component implements Meta {
   /**
    * The tag name of the close component
    * @category Configuration
@@ -50,6 +52,14 @@ export class Close extends Component {
   public static Template = new Template(import.meta.url);
 
   /**
+   * Internal Visibility state of the component
+   * @category State
+   * @default Visibility.VISIBLE
+   * @hidden
+   */
+  private _visibility: Visibility = Visibility.VISIBLE;
+
+  /**
    * Cache element references to improve performance
    * @category State
    * @hidden
@@ -61,6 +71,14 @@ export class Close extends Component {
    */
   constructor() {
     super(configuration);
+  }
+
+  /**
+   * Get the visibility of the close button
+   * @category State
+   */
+  public get visibility(): Visibility {
+    return this._visibility;
   }
 
   /**
