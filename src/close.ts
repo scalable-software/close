@@ -237,10 +237,12 @@ export class Close extends Component implements Meta {
   };
 
   /**
-   * Request closing
+   * Request closing: changes no state, every call dispatches `onclose`
    * @category Operations
    */
-  public close = () => {};
+  public close = () => {
+    this._dispatch(Event.ON_CLOSE);
+  };
 
   /**
    * List operations to perform for selected attributes being observed in the DOM.
