@@ -1184,6 +1184,28 @@ events(Event.ON_CLOSE, () => {
               });
             });
 
+            and("`close.onclose` is set to a new listener", () => {
+              let onclose2: jasmine.Spy;
+              beforeEach(() => {
+                onclose2 = jasmine.createSpy("onclose2");
+                close.onclose = onclose2;
+              });
+
+              when("invoking `close.close`", () => {
+                beforeEach(() => {
+                  close.close();
+                });
+
+                then("old `close.onclose` is not called", () => {
+                  expect(onclose).not.toHaveBeenCalled();
+                });
+
+                then("new `close.onclose` is called", () => {
+                  expect(onclose2).toHaveBeenCalled();
+                });
+              });
+            });
+
           });
         });
       });
