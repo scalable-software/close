@@ -459,6 +459,17 @@ state(State.STATUS, () => {
               expect(errors).toBe(0);
             });
           });
+
+          when("`status` attribute is removed", () => {
+            beforeEach(() => {
+              close.removeAttribute(Attributes.STATUS);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+          });
         });
       });
     });
