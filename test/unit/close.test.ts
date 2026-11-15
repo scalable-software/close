@@ -6,7 +6,8 @@ import {
   CSS,
   Attributes,
   State,
-  Visibility
+  Visibility,
+  Status
 } from "@scalable.software/close";
 
 // Configuration
@@ -367,6 +368,42 @@ state(State.VISIBILITY, () => {
                 expect(error.message).toBe("Invalid visibility value: invalid");
               }
             );
+          });
+        });
+      });
+    });
+  });
+});
+state(State.STATUS, () => {
+  given("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.status` getter exists", () => {
+          expect(close.status).toBeDefined();
+        });
+
+        when("`close.status` getter exists", () => {
+          then("`close.status` is `Status.RELEASED`", () => {
+            expect(close.status).toBe(Status.RELEASED);
           });
         });
       });
