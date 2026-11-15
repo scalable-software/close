@@ -321,6 +321,7 @@ export class Close extends Component implements Meta {
       Gesture.POINTERLEAVE,
       this._handleIconPointerleave
     );
+    this.elements.icon?.addEventListener(Gesture.CLICK, this._handleIconClick);
   };
 
   /**
@@ -340,6 +341,10 @@ export class Close extends Component implements Meta {
     this.elements.icon?.removeEventListener(
       Gesture.POINTERLEAVE,
       this._handleIconPointerleave
+    );
+    this.elements.icon?.removeEventListener(
+      Gesture.CLICK,
+      this._handleIconClick
     );
   };
 
@@ -363,4 +368,11 @@ export class Close extends Component implements Meta {
    * @hidden
    */
   private _handleIconPointerleave = () => this._release();
+
+  /**
+   * Handles a click on the icon: requests closing
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconClick = () => this.close();
 }
