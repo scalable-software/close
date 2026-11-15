@@ -9,7 +9,8 @@ import {
   Visibility,
   Status,
   Appearance,
-  Operation
+  Operation,
+  Event
 } from "@scalable.software/close";
 
 // Configuration
@@ -826,5 +827,35 @@ operation(Operation.CLOSE, () => {
 });
 
 // Event
+events(Event.ON_HIDE, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.onhide` setter exists", () => {
+          expect(hasSetter(close, Event.ON_HIDE)).toBeTrue();
+        });
+      });
+    });
+  });
+});
 
 // Gesture
