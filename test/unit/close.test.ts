@@ -440,6 +440,25 @@ state(State.STATUS, () => {
               expect(errors).toBe(0);
             });
           });
+
+          when("`status` attribute is set to `invalid`", () => {
+            let errors: number;
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async (reported) => {
+                close.setAttribute(Attributes.STATUS, "invalid");
+                errors = reported.calls.count();
+              });
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            then("no error is reported", () => {
+              expect(errors).toBe(0);
+            });
+          });
         });
       });
     });
