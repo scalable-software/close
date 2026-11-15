@@ -272,6 +272,19 @@ state(State.VISIBILITY, () => {
                 expect(close.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
               });
             });
+
+            when("`visibility` attribute is set to `invalid`", () => {
+              beforeEach(async () => {
+                await jasmine.spyOnGlobalErrorsAsync(async () => {
+                  close.setAttribute(Attributes.VISIBILITY, "invalid");
+                });
+              });
+
+              then("`visibility` attribute is `Visibility.HIDDEN`", () => {
+                const value = close.getAttribute(Attributes.VISIBILITY);
+                expect(value).toBe(Visibility.HIDDEN);
+              });
+            });
           });
 
           when("`visibility` attribute is set to `Visibility.HIDDEN`", () => {
