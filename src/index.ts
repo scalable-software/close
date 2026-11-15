@@ -9,4 +9,6 @@ export {
   Gesture
 } from "./close.meta.js";
 
+export { Validate } from "./close.validation.js";
+
 export { Close } from "./close.js";
