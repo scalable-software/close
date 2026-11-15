@@ -327,6 +327,15 @@ export class Close extends Component implements Meta {
       Gesture.KEYDOWN,
       this._handleIconKeydown
     );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupClose
+    );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
+    );
+    this.elements.icon?.addEventListener(Gesture.BLUR, this._handleIconBlur);
   };
 
   /**
@@ -355,6 +364,15 @@ export class Close extends Component implements Meta {
       Gesture.KEYDOWN,
       this._handleIconKeydown
     );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupClose
+    );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
+    );
+    this.elements.icon?.removeEventListener(Gesture.BLUR, this._handleIconBlur);
   };
 
   /**
@@ -386,10 +404,42 @@ export class Close extends Component implements Meta {
   private _handleIconClick = () => this.close();
 
   /**
-   * Handles a key pressed on the icon: Enter or Space requests closing
+   * Handles a key pressed on the icon: Enter or Space presses the close button,
+   * and the page does not scroll
    * @category Gesture
    * @hidden
    */
-  private _handleIconKeydown = (event: KeyboardEvent) =>
-    (event.key === Key.ENTER || event.key === Key.SPACE) && this.close();
+  private _handleIconKeydown = (event: KeyboardEvent) => {
+    if (event.key !== Key.ENTER && event.key !== Key.SPACE) return;
+    event.preventDefault();
+    this._press();
+  };
+
+  /**
+   * Handles a key lifted on the icon: Enter or Space requests closing
+   * when the close button is pressed
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupClose = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) &&
+    this.status === Status.PRESSED &&
+    this.close();
+
+  /**
+   * Handles a key lifted on the icon: Enter or Space releases the close button.
+   * Its listener is added after the one that requests closing, which reads
+   * the status before it is released
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupRelease = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) && this._release();
+
+  /**
+   * Handles the icon losing focus: releases the close button
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconBlur = () => this._release();
 }

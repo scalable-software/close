@@ -2,7 +2,7 @@
 
 # Close
 
-A lightweight, self-contained web component that lets users ask for a window, panel or dialog to be closed. It behaves like the close control in the corner of a desktop window: it looks pressed while it is held, makes the request when it is let go, and makes none when the pointer moves away first. It can be shown or hidden on demand, operated with a pointer or the keyboard, stands alone or lies flat inside a taskbar, and adapts automatically to light and dark themes. It closes nothing itself: it emits an event for each request, and the host application acts on it.
+A lightweight, self-contained web component that lets users ask for a window, panel or dialog to be closed. It behaves like the close control in the corner of a desktop window: it looks pressed while it is held, makes the request when it is let go, and makes none when the pointer moves away first. It can be shown or hidden on demand, operated with a pointer or the keyboard with the same press and release under both, is announced by name to assistive technology, stands alone or lies flat inside a taskbar, and adapts automatically to light and dark themes. It closes nothing itself: it emits an event for each request, and the host application acts on it.
 
 ---
 
@@ -79,8 +79,10 @@ This walkthrough demonstrates how to interact with `<close-button>` right after 
 
    - Observe the console output: `"Closing was requested"`. Every call makes a request; `close()` changes no state.
 
-8. **Focus** the `<close-button>` with the Tab key and press **Enter** or the **space bar**.
-   - Each key press makes a request too.
+8. **Focus** the `<close-button>` with the Tab key, then press and hold **Enter** or the **space bar**.
+   - `status` is `pressed` for as long as you hold the key, and no `onclose` is logged yet. The page does not scroll.
+   - Lift the key: `status` returns to `released`, and one `onclose` is logged.
+   - Hold the key again and press Tab to move the focus away: `status` returns to `released`, and no `onclose` is logged.
 
 9. **Hide** the component:
 
@@ -126,7 +128,7 @@ Lifecycle methods are implemented in the base class and extended by the **Close*
   2. Clones the HTML template into the Shadow Root.
   3. Inserts a `<link>` for scoped CSS.
   4. Initialises default state attributes.
-  5. Sets up event listeners on the icon: the pointer going down, being lifted and leaving, a click, and a key press.
+  5. Sets up event listeners on the icon: the pointer going down, being lifted and leaving, a click, a key going down and being lifted, and the icon losing focus.
 
 - **`disconnectedCallback()`**
   - Removes event listeners and cleans up cached element references.
@@ -148,7 +150,7 @@ The **Close** component uses both **internal properties** and **DOM attributes**
   - **Optional attribute**: absent from the DOM when `visible` (the default); present as `[visibility="hidden"]` on the host element when hidden.
 
 - **`status`** (`released` | `pressed`)
-  - Whether the close button is being pressed. It is `pressed` from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and `released` at all other times.
+  - Whether the close button is being pressed. It is `pressed` from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and from the moment Enter or the space bar goes down on the focused icon until the key is lifted or the icon loses focus. It is `released` at all other times.
   - **Readonly**: only the component changes it. It has no public setter, and an attribute changed from outside is put back to the component's own value.
   - **Compulsory attribute**: always present in the DOM, reflecting the current state at all times.
 
@@ -300,8 +302,12 @@ The **Close** component broadcasts custom events when its visibility changes and
 | `pointerup` | the pointer is lifted | `status` becomes `released` |
 | `pointerleave` | the pointer leaves | `status` becomes `released`, and no request is made |
 | `click` | a press and a lift on the icon | `close()` is called |
-| `keydown` | Enter or the space bar | `close()` is called |
+| `keydown` | Enter or the space bar goes down | `status` becomes `pressed`, and the page does not scroll |
+| `keyup` | Enter or the space bar is lifted | `close()` is called when `status` is `pressed`, then `status` becomes `released` |
+| `blur` | the icon loses focus | `status` becomes `released`, and no request is made |
 | `hover` | the pointer is over it | the colours change, in CSS only |
+
+The icon is focusable, has the role `button`, and carries the accessible name `Close` in its `aria-label`. Holding a key down makes no request, and neither does lifting a key that did not go down on the icon.
 
 ---
 

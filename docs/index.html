@@ -10,7 +10,7 @@
 <h1>Close</h1></div>
 <div class="tsd-panel tsd-typography"><p><img src="https://flat.badgen.net/static/license/CC-BY-NC-SA-4.0/green" alt="License: CC BY-NC-SA 4.0"></p>
 <h1 id="close" class="tsd-anchor-link">Close<a href="#close" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
-<p>A lightweight, self-contained web component that lets users ask for a window, panel or dialog to be closed. It behaves like the close control in the corner of a desktop window: it looks pressed while it is held, makes the request when it is let go, and makes none when the pointer moves away first. It can be shown or hidden on demand, operated with a pointer or the keyboard, stands alone or lies flat inside a taskbar, and adapts automatically to light and dark themes. It closes nothing itself: it emits an event for each request, and the host application acts on it.</p>
+<p>A lightweight, self-contained web component that lets users ask for a window, panel or dialog to be closed. It behaves like the close control in the corner of a desktop window: it looks pressed while it is held, makes the request when it is let go, and makes none when the pointer moves away first. It can be shown or hidden on demand, operated with a pointer or the keyboard with the same press and release under both, is announced by name to assistive technology, stands alone or lies flat inside a taskbar, and adapts automatically to light and dark themes. It closes nothing itself: it emits an event for each request, and the host application acts on it.</p>
 <hr>
 <h2 id="1-introduction" class="tsd-anchor-link">1. Introduction<a href="#1-introduction" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>The <strong>Close</strong> component provides a press button that requests closing and can be hidden/shown via both <strong>imperative</strong> and <strong>declarative</strong> APIs. It leverages custom Web Component features, including Shadow DOM, custom events, and attribute reflection for a clean, modular design.</p>
@@ -54,7 +54,7 @@
 <li>
 <p><strong>Open</strong> the served page in your browser.</p>
 <ul>
-<li>The <code>&lt;close-button&gt;</code> is shown in a band across the top. Below it are three groups: <strong>Operations</strong>, <strong>States</strong> and <strong>Events</strong>.</li>
+<li>The <code>&lt;close-button&gt;</code> is shown in a band across the top. Below it are three groups: <strong>States</strong>, <strong>Operations</strong> and <strong>Events</strong>.</li>
 </ul>
 </li>
 <li>
@@ -97,9 +97,11 @@
 </ul>
 </li>
 <li>
-<p><strong>Focus</strong> the <code>&lt;close-button&gt;</code> with the Tab key and press <strong>Enter</strong> or the <strong>space bar</strong>.</p>
+<p><strong>Focus</strong> the <code>&lt;close-button&gt;</code> with the Tab key, then press and hold <strong>Enter</strong> or the <strong>space bar</strong>.</p>
 <ul>
-<li>Each key press makes a request too.</li>
+<li><code>status</code> is <code>pressed</code> for as long as you hold the key, and no <code>onclose</code> is logged yet. The page does not scroll.</li>
+<li>Lift the key: <code>status</code> returns to <code>released</code>, and one <code>onclose</code> is logged.</li>
+<li>Hold the key again and press Tab to move the focus away: <code>status</code> returns to <code>released</code>, and no <code>onclose</code> is logged.</li>
 </ul>
 </li>
 <li>
@@ -151,7 +153,7 @@
 <li>Clones the HTML template into the Shadow Root.</li>
 <li>Inserts a <code>&lt;link&gt;</code> for scoped CSS.</li>
 <li>Initialises default state attributes.</li>
-<li>Sets up event listeners on the icon: the pointer going down, being lifted and leaving, a click, and a key press.</li>
+<li>Sets up event listeners on the icon: the pointer going down, being lifted and leaving, a click, a key going down and being lifted, and the icon losing focus.</li>
 </ol>
 </li>
 <li>
@@ -178,7 +180,7 @@
 <li>
 <p><strong><code>status</code></strong> (<code>released</code> | <code>pressed</code>)</p>
 <ul>
-<li>Whether the close button is being pressed. It is <code>pressed</code> from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and <code>released</code> at all other times.</li>
+<li>Whether the close button is being pressed. It is <code>pressed</code> from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and from the moment Enter or the space bar goes down on the focused icon until the key is lifted or the icon loses focus. It is <code>released</code> at all other times.</li>
 <li><strong>Readonly</strong>: only the component changes it. It has no public setter, and an attribute changed from outside is put back to the component's own value.</li>
 <li><strong>Compulsory attribute</strong>: always present in the DOM, reflecting the current state at all times.</li>
 </ul>
@@ -314,8 +316,18 @@
 </tr>
 <tr>
 <td><code>keydown</code></td>
-<td>Enter or the space bar</td>
-<td><code>close()</code> is called</td>
+<td>Enter or the space bar goes down</td>
+<td><code>status</code> becomes <code>pressed</code>, and the page does not scroll</td>
+</tr>
+<tr>
+<td><code>keyup</code></td>
+<td>Enter or the space bar is lifted</td>
+<td><code>close()</code> is called when <code>status</code> is <code>pressed</code>, then <code>status</code> becomes <code>released</code></td>
+</tr>
+<tr>
+<td><code>blur</code></td>
+<td>the icon loses focus</td>
+<td><code>status</code> becomes <code>released</code>, and no request is made</td>
 </tr>
 <tr>
 <td><code>hover</code></td>
@@ -324,6 +336,7 @@
 </tr>
 </tbody>
 </table>
+<p>The icon is focusable, has the role <code>button</code>, and carries the accessible name <code>Close</code> in its <code>aria-label</code>. Holding a key down makes no request, and neither does lifting a key that did not go down on the icon.</p>
 <hr>
 <h2 id="5-development-workflow" class="tsd-anchor-link">5. Development Workflow<a href="#5-development-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>Below is a recommended workflow for building, testing, documenting, and publishing the Close component.</p>

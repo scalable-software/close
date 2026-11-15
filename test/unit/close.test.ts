@@ -128,6 +128,10 @@ composition(Composition.TEMPLATE, () => {
             then("`div.icon` has `role` `button`", () => {
               expect(div.getAttribute("role")).toBe("button");
             });
+
+            then("`div.icon` has `aria-label` `Close`", () => {
+              expect(div.getAttribute("aria-label")).toBe("Close");
+            });
           });
         });
       });
@@ -1432,6 +1436,164 @@ gesture(Gesture.KEYDOWN, () => {
 
         when("user presses `Key.ENTER` on `div` with class `icon`", () => {
           let onclose: jasmine.Spy;
+          let event: KeyboardEvent;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            event = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.ENTER,
+              cancelable: true
+            });
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(event);
+          });
+
+          then("`close.status` is `Status.PRESSED`", () => {
+            expect(close.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = close.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+
+          then("the page does not scroll: default is prevented", () => {
+            expect(event.defaultPrevented).toBeTrue();
+          });
+
+          when("user holds `Key.ENTER` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.ENTER,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`close.status` is `Status.PRESSED`", () => {
+              expect(close.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
+          });
+        });
+
+        when("user presses `Key.SPACE` on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          let event: KeyboardEvent;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            event = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.SPACE,
+              cancelable: true
+            });
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(event);
+          });
+
+          then("`close.status` is `Status.PRESSED`", () => {
+            expect(close.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = close.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+
+          then("the page does not scroll: default is prevented", () => {
+            expect(event.defaultPrevented).toBeTrue();
+          });
+
+          when("user holds `Key.SPACE` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.SPACE,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`close.status` is `Status.PRESSED`", () => {
+              expect(close.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
+          });
+        });
+
+        when("user presses another key on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          let event: KeyboardEvent;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            event = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: "a",
+              cancelable: true
+            });
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(event);
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+
+          then("`close.status` is `Status.RELEASED`", () => {
+            expect(close.status).toEqual(Status.RELEASED);
+          });
+
+          then("the default is not prevented", () => {
+            expect(event.defaultPrevented).toBeFalse();
+          });
+        });
+      });
+    });
+  });
+});
+
+gesture(Gesture.KEYUP, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        and("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
           beforeEach(() => {
             onclose = jasmine.createSpy("onclose");
             close.onclose = onclose;
@@ -1441,12 +1603,43 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onclose` is called", () => {
-            expect(onclose).toHaveBeenCalledTimes(1);
+          when("user lifts `Key.ENTER` on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+              );
+            });
+
+            then("`onclose` is called", () => {
+              expect(onclose).toHaveBeenCalledTimes(1);
+            });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            when("user lifts `Key.ENTER` on `div` with class `icon` again", () => {
+              beforeEach(() => {
+                const icon = close.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+                );
+              });
+
+              then("`onclose` is not called again", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
 
-        when("user presses `Key.SPACE` on `div` with class `icon`", () => {
+        and("user presses `Key.SPACE` on `div` with class `icon`", () => {
           let onclose: jasmine.Spy;
           beforeEach(() => {
             onclose = jasmine.createSpy("onclose");
@@ -1457,22 +1650,170 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onclose` is called", () => {
-            expect(onclose).toHaveBeenCalledTimes(1);
+          when("user lifts `Key.SPACE` on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+              );
+            });
+
+            then("`onclose` is called", () => {
+              expect(onclose).toHaveBeenCalledTimes(1);
+            });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            when("user lifts `Key.SPACE` on `div` with class `icon` again", () => {
+              beforeEach(() => {
+                const icon = close.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+                );
+              });
+
+              then("`onclose` is not called again", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
 
-        when("user presses another key on `div` with class `icon`", () => {
+        when("user lifts `Key.ENTER` on `div` with class `icon`, without pressing it first", () => {
           let onclose: jasmine.Spy;
           beforeEach(() => {
             onclose = jasmine.createSpy("onclose");
             close.onclose = onclose;
             const icon = close.root.querySelector(".icon") as HTMLElement;
-            icon.dispatchEvent(new KeyboardEvent(Gesture.KEYDOWN, { key: "a" }));
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+            );
           });
 
           then("`onclose` is not called", () => {
             expect(onclose).not.toHaveBeenCalled();
+          });
+        });
+
+        when("user lifts `Key.SPACE` on `div` with class `icon`, without pressing it first", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+            );
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+        });
+
+        and("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
+          });
+
+          when("user lifts another key on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new KeyboardEvent(Gesture.KEYUP, { key: "a" }));
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
+
+            then("`close.status` is `Status.PRESSED`", () => {
+              expect(close.status).toEqual(Status.PRESSED);
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+gesture(Gesture.BLUR, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        and("user presses `Key.ENTER` on `div` with class `icon`", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
+            );
+          });
+
+          when("`div` with class `icon` loses focus", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new FocusEvent(Gesture.BLUR));
+            });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
+
+            when("user lifts `Key.ENTER` on `div` with class `icon`", () => {
+              beforeEach(() => {
+                const icon = close.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+                );
+              });
+
+              then("`onclose` is not called", () => {
+                expect(onclose).not.toHaveBeenCalled();
+              });
+            });
           });
         });
       });
