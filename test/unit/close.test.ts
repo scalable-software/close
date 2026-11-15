@@ -1445,8 +1445,37 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onclose` is called", () => {
-            expect(onclose).toHaveBeenCalledTimes(1);
+          then("`close.status` is `Status.PRESSED`", () => {
+            expect(close.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = close.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+
+          when("user holds `Key.ENTER` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.ENTER,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`close.status` is `Status.PRESSED`", () => {
+              expect(close.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
           });
         });
 
@@ -1461,8 +1490,37 @@ gesture(Gesture.KEYDOWN, () => {
             );
           });
 
-          then("`onclose` is called", () => {
-            expect(onclose).toHaveBeenCalledTimes(1);
+          then("`close.status` is `Status.PRESSED`", () => {
+            expect(close.status).toEqual(Status.PRESSED);
+          });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = close.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+
+          when("user holds `Key.SPACE` down on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(
+                new KeyboardEvent(Gesture.KEYDOWN, {
+                  key: Key.SPACE,
+                  repeat: true
+                })
+              );
+            });
+
+            then("`close.status` is `Status.PRESSED`", () => {
+              expect(close.status).toEqual(Status.PRESSED);
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
+            });
           });
         });
 
