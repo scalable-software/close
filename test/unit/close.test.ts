@@ -795,6 +795,19 @@ operation(Operation.CLOSE, () => {
         then("`close.close` method exists", () => {
           expect(close.close).toBeDefined();
         });
+
+        and("`close.close` method exists", () => {
+          when("invoking `close.close`", () => {
+            let result: unknown;
+            beforeEach(() => {
+              result = close.close();
+            });
+
+            then("`close.close` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
+          });
+        });
       });
     });
   });
