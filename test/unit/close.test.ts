@@ -1550,6 +1550,10 @@ gesture(Gesture.KEYDOWN, () => {
           then("`onclose` is not called", () => {
             expect(onclose).not.toHaveBeenCalled();
           });
+
+          then("`close.status` is `Status.RELEASED`", () => {
+            expect(close.status).toEqual(Status.RELEASED);
+          });
         });
       });
     });
