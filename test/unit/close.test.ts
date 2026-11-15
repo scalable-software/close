@@ -992,6 +992,17 @@ events(Event.ON_SHOW, () => {
                 close.onshow = onshow;
               });
 
+              when("`close.visibility` is set to `Visibility.VISIBLE` twice", () => {
+                beforeEach(() => {
+                  close.visibility = Visibility.VISIBLE;
+                  close.visibility = Visibility.VISIBLE;
+                });
+
+                then("`close.onshow` is called once", () => {
+                  expect(onshow).toHaveBeenCalledTimes(1);
+                });
+              });
+
               when("`close.visibility` is set to `Visibility.VISIBLE`", () => {
                 beforeEach(() => {
                   close.visibility = Visibility.VISIBLE;
