@@ -8,7 +8,8 @@ import {
   State,
   Visibility,
   Status,
-  Appearance
+  Appearance,
+  Operation
 } from "@scalable.software/close";
 
 // Configuration
@@ -666,6 +667,36 @@ state(State.APPEARANCE, () => {
 });
 
 // Operation
+operation(Operation.HIDE, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.hide` method exists", () => {
+          expect(close.hide).toBeDefined();
+        });
+      });
+    });
+  });
+});
 
 // Event
 
