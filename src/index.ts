@@ -3,9 +3,15 @@ export {
   CSS,
   Attributes,
   State,
+  Visibility,
+  Status,
+  Appearance,
   Operation,
   Event,
-  Gesture
-} from "./component.meta.js";
+  Gesture,
+  Key
+} from "./close.meta.js";
 
-export { component } from "./component.js";
+export { Validate } from "./close.validation.js";
+
+export { Close } from "./close.js";
