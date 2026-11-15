@@ -575,6 +575,18 @@ state(State.APPEARANCE, () => {
             });
           });
 
+          when("`appearance` attribute is set to `invalid`", () => {
+            beforeEach(async () => {
+              await jasmine.spyOnGlobalErrorsAsync(async () => {
+                close.setAttribute(Attributes.APPEARANCE, "invalid");
+              });
+            });
+
+            then("`appearance` attribute does not exist", () => {
+              expect(close.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
+            });
+          });
+
           when("`close.appearance` is set to `null`", () => {
             beforeEach(() => {
               close.appearance = null;
