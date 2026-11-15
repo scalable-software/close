@@ -331,6 +331,10 @@ export class Close extends Component implements Meta {
       Gesture.KEYUP,
       this._handleIconKeyupClose
     );
+    this.elements.icon?.addEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
+    );
   };
 
   /**
@@ -362,6 +366,10 @@ export class Close extends Component implements Meta {
     this.elements.icon?.removeEventListener(
       Gesture.KEYUP,
       this._handleIconKeyupClose
+    );
+    this.elements.icon?.removeEventListener(
+      Gesture.KEYUP,
+      this._handleIconKeyupRelease
     );
   };
 
@@ -415,4 +423,14 @@ export class Close extends Component implements Meta {
     (event.key === Key.ENTER || event.key === Key.SPACE) &&
     this.status === Status.PRESSED &&
     this.close();
+
+  /**
+   * Handles a key lifted on the icon: Enter or Space releases the close button.
+   * Its listener is added after the one that requests closing, which reads
+   * the status before it is released
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconKeyupRelease = (event: KeyboardEvent) =>
+    (event.key === Key.ENTER || event.key === Key.SPACE) && this._release();
 }
