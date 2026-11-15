@@ -1117,6 +1117,26 @@ events(Event.ON_CLOSE, () => {
           );
           expect(own?.set).toBeDefined();
         });
+
+        and("`close.onclose` setter exists", () => {
+          and("`close.onclose` is set to a listener", () => {
+            let onclose: jasmine.Spy;
+            beforeEach(() => {
+              onclose = jasmine.createSpy("onclose");
+              close.onclose = onclose;
+            });
+
+            when("invoking `close.close`", () => {
+              beforeEach(() => {
+                close.close();
+              });
+
+              then("`close.onclose` is called", () => {
+                expect(onclose).toHaveBeenCalled();
+              });
+            });
+          });
+        });
       });
     });
   });
