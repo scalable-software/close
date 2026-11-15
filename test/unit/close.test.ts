@@ -103,6 +103,11 @@ composition(Composition.TEMPLATE, () => {
               div = close.root.querySelector("div.icon") as HTMLDivElement;
             });
 
+            then("`div.icon` contains `svg.close`", () => {
+              const svg = div.querySelector("svg.close");
+              expect(svg).not.toBeNull();
+            });
+
             then("`div.icon` has `tabindex` `0`", () => {
               expect(div.getAttribute("tabindex")).toBe("0");
             });
