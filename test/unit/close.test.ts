@@ -313,6 +313,16 @@ state(State.VISIBILITY, () => {
             );
           });
 
+          when("`visibility` attribute is set to `Visibility.VISIBLE`", () => {
+            beforeEach(() => {
+              close.setAttribute(Attributes.VISIBILITY, Visibility.VISIBLE);
+            });
+
+            then("`visibility` attribute does not exist", () => {
+              expect(close.hasAttribute(Attributes.VISIBILITY)).toBeFalse();
+            });
+          });
+
           when("`close.visibility` is set to `null`", () => {
             beforeEach(() => {
               close.visibility = null;
