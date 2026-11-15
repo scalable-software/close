@@ -704,6 +704,10 @@ operation(Operation.HIDE, () => {
             then("`close.visibility` is `Visibility.HIDDEN`", () => {
               expect(close.visibility).toBe(Visibility.HIDDEN);
             });
+
+            then("`close.hide` returns nothing", () => {
+              expect(result).toBeUndefined();
+            });
           });
         });
       });
