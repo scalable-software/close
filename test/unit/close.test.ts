@@ -472,6 +472,30 @@ state(State.STATUS, () => {
           });
         });
       });
+
+      and(
+        "a new close with `status` attribute `Status.PRESSED` is added to DOM",
+        () => {
+          let close: Close;
+          beforeEach(() => {
+            close = add<Close>(Close.Tag, {
+              [Attributes.STATUS]: Status.PRESSED
+            });
+          });
+          afterEach(() => {
+            close.remove();
+          });
+
+          then("`close.status` is `Status.RELEASED`", () => {
+            expect(close.status).toBe(Status.RELEASED);
+          });
+
+          then("`status` attribute is `Status.RELEASED`", () => {
+            const value = close.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.RELEASED);
+          });
+        }
+      );
     });
   });
 });
