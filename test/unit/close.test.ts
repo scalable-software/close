@@ -558,6 +558,11 @@ state(State.APPEARANCE, () => {
             then("`close.appearance` is `Appearance.FLAT`", () => {
               expect(close.appearance).toBe(Appearance.FLAT);
             });
+
+            then("close `appearance` attribute is `Appearance.FLAT`", () => {
+              const value = close.getAttribute(Attributes.APPEARANCE);
+              expect(value).toBe(Appearance.FLAT);
+            });
           });
 
           when("`close.appearance` is set to `null`", () => {
