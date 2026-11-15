@@ -862,6 +862,17 @@ events(Event.ON_HIDE, () => {
               close.onhide = onhide;
             });
 
+            when("`close.visibility` is set to `Visibility.HIDDEN` twice", () => {
+              beforeEach(() => {
+                close.visibility = Visibility.HIDDEN;
+                close.visibility = Visibility.HIDDEN;
+              });
+
+              then("`close.onhide` is called once", () => {
+                expect(onhide).toHaveBeenCalledTimes(1);
+              });
+            });
+
             when("`close.visibility` is set to `Visibility.HIDDEN`", () => {
               beforeEach(() => {
                 close.visibility = Visibility.HIDDEN;
