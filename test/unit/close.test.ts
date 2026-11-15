@@ -1247,6 +1247,11 @@ gesture(Gesture.POINTERDOWN, () => {
           then("`close.status` is `Status.PRESSED`", () => {
             expect(close.status).toEqual(Status.PRESSED);
           });
+
+          then("`status` attribute is `Status.PRESSED`", () => {
+            const value = close.getAttribute(Attributes.STATUS);
+            expect(value).toBe(Status.PRESSED);
+          });
         });
       });
     });
