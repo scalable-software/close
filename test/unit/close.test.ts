@@ -565,6 +565,16 @@ state(State.APPEARANCE, () => {
             });
           });
 
+          when("`appearance` attribute is set to `Appearance.FLAT`", () => {
+            beforeEach(() => {
+              close.setAttribute(Attributes.APPEARANCE, Appearance.FLAT);
+            });
+
+            then("`close.appearance` is `Appearance.FLAT`", () => {
+              expect(close.appearance).toBe(Appearance.FLAT);
+            });
+          });
+
           when("`close.appearance` is set to `null`", () => {
             beforeEach(() => {
               close.appearance = null;
