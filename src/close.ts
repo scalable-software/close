@@ -264,6 +264,15 @@ export class Close extends Component implements Meta {
   };
 
   /**
+   * Release the close button: only reached through a gesture
+   * @category Operations
+   * @hidden
+   */
+  private _release = () => {
+    this.status = Status.RELEASED;
+  };
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
@@ -304,6 +313,10 @@ export class Close extends Component implements Meta {
       Gesture.POINTERDOWN,
       this._handleIconPointerdown
     );
+    this.elements.icon?.addEventListener(
+      Gesture.POINTERUP,
+      this._handleIconPointerup
+    );
   };
 
   /**
@@ -316,6 +329,10 @@ export class Close extends Component implements Meta {
       Gesture.POINTERDOWN,
       this._handleIconPointerdown
     );
+    this.elements.icon?.removeEventListener(
+      Gesture.POINTERUP,
+      this._handleIconPointerup
+    );
   };
 
   /**
@@ -324,4 +341,11 @@ export class Close extends Component implements Meta {
    * @hidden
    */
   private _handleIconPointerdown = () => this._press();
+
+  /**
+   * Handles the pointer being lifted from the icon: releases the close button
+   * @category Gesture
+   * @hidden
+   */
+  private _handleIconPointerup = () => this._release();
 }
