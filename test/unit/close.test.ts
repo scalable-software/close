@@ -741,6 +741,25 @@ operation(Operation.SHOW, () => {
         then("`close.show` method exists", () => {
           expect(close.show).toBeDefined();
         });
+
+        and("`close.show` method exists", () => {
+          and("`close.visibility` is `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              close.visibility = Visibility.HIDDEN;
+            });
+
+            when("invoking `close.show`", () => {
+              let result: unknown;
+              beforeEach(() => {
+                result = close.show();
+              });
+
+              then("`close.visibility` is `Visibility.VISIBLE`", () => {
+                expect(close.visibility).toBe(Visibility.VISIBLE);
+              });
+            });
+          });
+        });
       });
     });
   });
