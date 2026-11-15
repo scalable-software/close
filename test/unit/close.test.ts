@@ -978,6 +978,32 @@ events(Event.ON_SHOW, () => {
         then("`close.onshow` setter exists", () => {
           expect(hasSetter(close, Event.ON_SHOW)).toBeTrue();
         });
+
+        and("`close.onshow` setter exists", () => {
+          and("`close.visibility` is set to `Visibility.HIDDEN`", () => {
+            beforeEach(() => {
+              close.visibility = Visibility.HIDDEN;
+            });
+
+            and("`close.onshow` is set to a listener", () => {
+              let onshow: jasmine.Spy;
+              beforeEach(() => {
+                onshow = jasmine.createSpy("onshow");
+                close.onshow = onshow;
+              });
+
+              when("`close.visibility` is set to `Visibility.VISIBLE`", () => {
+                beforeEach(() => {
+                  close.visibility = Visibility.VISIBLE;
+                });
+
+                then("`close.onshow` is called", () => {
+                  expect(onshow).toHaveBeenCalled();
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
