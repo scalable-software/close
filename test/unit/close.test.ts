@@ -757,6 +757,10 @@ operation(Operation.SHOW, () => {
               then("`close.visibility` is `Visibility.VISIBLE`", () => {
                 expect(close.visibility).toBe(Visibility.VISIBLE);
               });
+
+              then("`close.show` returns nothing", () => {
+                expect(result).toBeUndefined();
+              });
             });
           });
         });
