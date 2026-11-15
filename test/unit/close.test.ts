@@ -7,7 +7,8 @@ import {
   Attributes,
   State,
   Visibility,
-  Status
+  Status,
+  Appearance
 } from "@scalable.software/close";
 
 // Configuration
@@ -504,6 +505,46 @@ state(State.STATUS, () => {
           });
         }
       );
+    });
+  });
+});
+state(State.APPEARANCE, () => {
+  given("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("a HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.appearance` getter exists", () => {
+          expect(close.appearance).toBeDefined();
+        });
+
+        when("`close.appearance` getter exists", () => {
+          then("`close.appearance` is `Appearance.FLOATING`", () => {
+            expect(close.appearance).toBe(Appearance.FLOATING);
+          });
+        });
+
+        then("`appearance` attribute does not exist", () => {
+          expect(close.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
+        });
+      });
     });
   });
 });
