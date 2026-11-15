@@ -1436,13 +1436,16 @@ gesture(Gesture.KEYDOWN, () => {
 
         when("user presses `Key.ENTER` on `div` with class `icon`", () => {
           let onclose: jasmine.Spy;
+          let event: KeyboardEvent;
           beforeEach(() => {
             onclose = jasmine.createSpy("onclose");
             close.onclose = onclose;
+            event = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.ENTER,
+              cancelable: true
+            });
             const icon = close.root.querySelector(".icon") as HTMLElement;
-            icon.dispatchEvent(
-              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.ENTER })
-            );
+            icon.dispatchEvent(event);
           });
 
           then("`close.status` is `Status.PRESSED`", () => {
@@ -1456,6 +1459,10 @@ gesture(Gesture.KEYDOWN, () => {
 
           then("`onclose` is not called", () => {
             expect(onclose).not.toHaveBeenCalled();
+          });
+
+          then("the page does not scroll: default is prevented", () => {
+            expect(event.defaultPrevented).toBeTrue();
           });
 
           when("user holds `Key.ENTER` down on `div` with class `icon`", () => {
@@ -1481,13 +1488,16 @@ gesture(Gesture.KEYDOWN, () => {
 
         when("user presses `Key.SPACE` on `div` with class `icon`", () => {
           let onclose: jasmine.Spy;
+          let event: KeyboardEvent;
           beforeEach(() => {
             onclose = jasmine.createSpy("onclose");
             close.onclose = onclose;
+            event = new KeyboardEvent(Gesture.KEYDOWN, {
+              key: Key.SPACE,
+              cancelable: true
+            });
             const icon = close.root.querySelector(".icon") as HTMLElement;
-            icon.dispatchEvent(
-              new KeyboardEvent(Gesture.KEYDOWN, { key: Key.SPACE })
-            );
+            icon.dispatchEvent(event);
           });
 
           then("`close.status` is `Status.PRESSED`", () => {
@@ -1501,6 +1511,10 @@ gesture(Gesture.KEYDOWN, () => {
 
           then("`onclose` is not called", () => {
             expect(onclose).not.toHaveBeenCalled();
+          });
+
+          then("the page does not scroll: default is prevented", () => {
+            expect(event.defaultPrevented).toBeTrue();
           });
 
           when("user holds `Key.SPACE` down on `div` with class `icon`", () => {
