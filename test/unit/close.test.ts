@@ -257,6 +257,11 @@ state(State.VISIBILITY, () => {
             then("`close.visibility` is `Visibility.HIDDEN`", () => {
               expect(close.visibility).toBe(Visibility.HIDDEN);
             });
+
+            then("close `visibility` attribute is `Visibility.HIDDEN`", () => {
+              const value = close.getAttribute(Attributes.VISIBILITY);
+              expect(value).toBe(Visibility.HIDDEN);
+            });
           });
 
           when("`close.visibility` is set to `null`", () => {
