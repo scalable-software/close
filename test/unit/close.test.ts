@@ -1143,6 +1143,17 @@ events(Event.ON_CLOSE, () => {
               });
             });
 
+            when("invoking `close.close` twice", () => {
+              beforeEach(() => {
+                close.close();
+                close.close();
+              });
+
+              then("`close.onclose` is called twice", () => {
+                expect(onclose).toHaveBeenCalledTimes(2);
+              });
+            });
+
           });
         });
       });
