@@ -803,6 +803,18 @@ operation(Operation.CLOSE, () => {
               result = close.close();
             });
 
+            then("`close.visibility` is still `Visibility.VISIBLE`", () => {
+              expect(close.visibility).toBe(Visibility.VISIBLE);
+            });
+
+            then("`close.status` is still `Status.RELEASED`", () => {
+              expect(close.status).toBe(Status.RELEASED);
+            });
+
+            then("`close.appearance` is still `Appearance.FLOATING`", () => {
+              expect(close.appearance).toBe(Appearance.FLOATING);
+            });
+
             then("`close.close` returns nothing", () => {
               expect(result).toBeUndefined();
             });
