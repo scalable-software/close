@@ -74,11 +74,15 @@ export class Close extends Component implements Meta {
   }
 
   /**
-   * Get the visibility of the close button
+   * Get and set the visibility of the close button
    * @category State
    */
   public get visibility(): Visibility {
     return this._visibility;
+  }
+  public set visibility(visibility: Visibility) {
+    // Mutate
+    this._visibility = visibility;
   }
 
   /**
