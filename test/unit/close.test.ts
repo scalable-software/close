@@ -1614,6 +1614,28 @@ gesture(Gesture.KEYUP, () => {
             then("`onclose` is called", () => {
               expect(onclose).toHaveBeenCalledTimes(1);
             });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            when("user lifts `Key.ENTER` on `div` with class `icon` again", () => {
+              beforeEach(() => {
+                const icon = close.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+                );
+              });
+
+              then("`onclose` is not called again", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
+            });
           });
         });
 
@@ -1638,6 +1660,28 @@ gesture(Gesture.KEYUP, () => {
 
             then("`onclose` is called", () => {
               expect(onclose).toHaveBeenCalledTimes(1);
+            });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+
+            when("user lifts `Key.SPACE` on `div` with class `icon` again", () => {
+              beforeEach(() => {
+                const icon = close.root.querySelector(".icon") as HTMLElement;
+                icon.dispatchEvent(
+                  new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+                );
+              });
+
+              then("`onclose` is not called again", () => {
+                expect(onclose).toHaveBeenCalledTimes(1);
+              });
             });
           });
         });
