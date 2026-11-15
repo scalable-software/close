@@ -1641,6 +1641,38 @@ gesture(Gesture.KEYUP, () => {
             });
           });
         });
+
+        when("user lifts `Key.ENTER` on `div` with class `icon`, without pressing it first", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYUP, { key: Key.ENTER })
+            );
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+        });
+
+        when("user lifts `Key.SPACE` on `div` with class `icon`, without pressing it first", () => {
+          let onclose: jasmine.Spy;
+          beforeEach(() => {
+            onclose = jasmine.createSpy("onclose");
+            close.onclose = onclose;
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(
+              new KeyboardEvent(Gesture.KEYUP, { key: Key.SPACE })
+            );
+          });
+
+          then("`onclose` is not called", () => {
+            expect(onclose).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
