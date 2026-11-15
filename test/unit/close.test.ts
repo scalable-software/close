@@ -1257,3 +1257,53 @@ gesture(Gesture.POINTERDOWN, () => {
     });
   });
 });
+
+gesture(Gesture.POINTERUP, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        and("user `pointerdown` on `div` with class `icon`", () => {
+          beforeEach(() => {
+            const icon = close.root.querySelector(".icon") as HTMLElement;
+            icon.dispatchEvent(new PointerEvent(Gesture.POINTERDOWN));
+          });
+
+          when("user `pointerup` on `div` with class `icon`", () => {
+            beforeEach(() => {
+              const icon = close.root.querySelector(".icon") as HTMLElement;
+              icon.dispatchEvent(new PointerEvent(Gesture.POINTERUP));
+            });
+
+            then("`close.status` is `Status.RELEASED`", () => {
+              expect(close.status).toEqual(Status.RELEASED);
+            });
+
+            then("`status` attribute is `Status.RELEASED`", () => {
+              const value = close.getAttribute(Attributes.STATUS);
+              expect(value).toBe(Status.RELEASED);
+            });
+          });
+        });
+      });
+    });
+  });
+});
