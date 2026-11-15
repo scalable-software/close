@@ -1083,5 +1083,43 @@ events(Event.ON_SHOW, () => {
     });
   });
 });
+events(Event.ON_CLOSE, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.onclose` setter exists", () => {
+          expect(hasSetter(close, Event.ON_CLOSE)).toBeTrue();
+        });
+
+        then("`close.onclose` setter is the close's own, not the platform's", () => {
+          const own = Object.getOwnPropertyDescriptor(
+            Close.prototype,
+            Event.ON_CLOSE
+          );
+          expect(own?.set).toBeDefined();
+        });
+      });
+    });
+  });
+});
 
 // Gesture
