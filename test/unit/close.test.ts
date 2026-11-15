@@ -544,6 +544,22 @@ state(State.APPEARANCE, () => {
         then("`appearance` attribute does not exist", () => {
           expect(close.hasAttribute(Attributes.APPEARANCE)).toBeFalse();
         });
+
+        then("`close.appearance` setter exists", () => {
+          expect(hasSetter(close, "appearance")).toBeTrue();
+        });
+
+        and("`close.appearance` setter exists", () => {
+          when("`close.appearance` is set to `Appearance.FLAT`", () => {
+            beforeEach(() => {
+              close.appearance = Appearance.FLAT;
+            });
+
+            then("`close.appearance` is `Appearance.FLAT`", () => {
+              expect(close.appearance).toBe(Appearance.FLAT);
+            });
+          });
+        });
       });
     });
   });
