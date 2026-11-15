@@ -1134,7 +1134,15 @@ events(Event.ON_CLOSE, () => {
               then("`close.onclose` is called", () => {
                 expect(onclose).toHaveBeenCalled();
               });
+
+              then("`close.onclose` is called with no detail", () => {
+                const message = { detail: null };
+                expect(onclose).toHaveBeenCalledWith(
+                  jasmine.objectContaining(message)
+                );
+              });
             });
+
           });
         });
       });
