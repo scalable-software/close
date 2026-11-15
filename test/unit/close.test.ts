@@ -853,6 +853,26 @@ events(Event.ON_HIDE, () => {
         then("`close.onhide` setter exists", () => {
           expect(hasSetter(close, Event.ON_HIDE)).toBeTrue();
         });
+
+        and("`close.onhide` setter exists", () => {
+          and("`close.onhide` is set to a listener", () => {
+            let onhide: jasmine.Spy;
+            beforeEach(() => {
+              onhide = jasmine.createSpy("onhide");
+              close.onhide = onhide;
+            });
+
+            when("`close.visibility` is set to `Visibility.HIDDEN`", () => {
+              beforeEach(() => {
+                close.visibility = Visibility.HIDDEN;
+              });
+
+              then("`close.onhide` is called", () => {
+                expect(onhide).toHaveBeenCalled();
+              });
+            });
+          });
+        });
       });
     });
   });
