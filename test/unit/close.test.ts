@@ -1338,9 +1338,16 @@ gesture(Gesture.POINTERLEAVE, () => {
           });
 
           when("the pointer leaves `div` with class `icon`", () => {
+            let onclose: jasmine.Spy;
             beforeEach(() => {
+              onclose = jasmine.createSpy("onclose");
+              close.onclose = onclose;
               const icon = close.root.querySelector(".icon") as HTMLElement;
               icon.dispatchEvent(new PointerEvent(Gesture.POINTERLEAVE));
+            });
+
+            then("`onclose` is not called", () => {
+              expect(onclose).not.toHaveBeenCalled();
             });
 
             then("`close.status` is `Status.RELEASED`", () => {
