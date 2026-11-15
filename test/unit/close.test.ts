@@ -90,6 +90,28 @@ composition(Composition.TEMPLATE, () => {
         then("close.root contents contains template contents", () => {
           expect(close.root.innerHTML).toContain(template.innerHTML);
         });
+
+        and("`close.root` contents contains template contents", () => {
+          then("`close.root` contains `div.icon`", () => {
+            const div = close.root.querySelector("div.icon");
+            expect(div).not.toBeNull();
+          });
+
+          when("`close.root` contains `div.icon`", () => {
+            let div: HTMLDivElement;
+            beforeEach(() => {
+              div = close.root.querySelector("div.icon") as HTMLDivElement;
+            });
+
+            then("`div.icon` has `tabindex` `0`", () => {
+              expect(div.getAttribute("tabindex")).toBe("0");
+            });
+
+            then("`div.icon` has `role` `button`", () => {
+              expect(div.getAttribute("role")).toBe("button");
+            });
+          });
+        });
       });
     });
   });
