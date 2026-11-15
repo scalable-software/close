@@ -1,0 +1,171 @@
+{
+  "Component": "Close",
+  "Package": "close",
+  "Description": "A theme-aware web component that lets users ask for a window to be closed, and can be shown or hidden, while emitting an event for each request.",
+  "Tag": "close-button",
+  "Composition": {
+    "template": {
+      "description": "The HTML template for the close component.",
+      "type": "template",
+      "id": "close-button",
+      "contains": ["div.icon"]
+    },
+    "div.icon": {
+      "description": "The main container of the close component.",
+      "type": "div",
+      "cached": true,
+      "class": "icon",
+      "attributes": {
+        "tabindex": "0",
+        "role": "button"
+      },
+      "contains": ["svg.close"]
+    },
+    "svg.close": {
+      "description": "The SVG icon of a cross.",
+      "type": "svg",
+      "class": "close"
+    }
+  },
+  "States": {
+    "visibility": {
+      "type": "Visibility",
+      "description": "Indicates whether the component is visible or hidden.",
+      "values": ["visible", "hidden"],
+      "default": "visible",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    },
+    "status": {
+      "type": "Status",
+      "description": "Indicates whether the control is being pressed. It is 'pressed' from the moment the pointer goes down on the icon until it is lifted or leaves the icon, and 'released' at all other times. Only the component changes it.",
+      "values": ["released", "pressed"],
+      "default": "released",
+      "readonly": true,
+      "attribute": {
+        "optional": false
+      }
+    },
+    "appearance": {
+      "type": "Appearance",
+      "description": "Indicates whether the component stands alone, with its own border and shadow, or lies flat inside another surface.",
+      "values": ["floating", "flat"],
+      "default": "floating",
+      "readonly": false,
+      "attribute": {
+        "optional": true
+      }
+    }
+  },
+  "Operations": {
+    "hide": {
+      "description": "Sets 'visibility' state to 'hidden' and hides the close control.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "show": {
+      "description": "Sets 'visibility' state to 'visible' and shows the close control.",
+      "parameters": [],
+      "returns": "void"
+    },
+    "close": {
+      "description": "Requests closing. Changes no state: every call dispatches 'onclose'.",
+      "parameters": [],
+      "returns": "void"
+    }
+  },
+  "Events": {
+    "onhide": {
+      "description": "Dispatched when close 'visibility' state changes from 'visible' to 'hidden'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility state of the component.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["hidden"]
+            }
+          }
+        }
+      ]
+    },
+    "onshow": {
+      "description": "Dispatched when close 'visibility' state changes from 'hidden' to 'visible'.",
+      "parameters": [
+        {
+          "name": "detail",
+          "type": "object",
+          "description": "Contains the new visibility state of the component.",
+          "properties": {
+            "visibility": {
+              "type": "Visibility",
+              "values": ["visible"]
+            }
+          }
+        }
+      ]
+    },
+    "onclose": {
+      "description": "Dispatched each time closing is requested, by a gesture or by the 'close' operation."
+    }
+  },
+  "Gestures": {
+    "pointerdown": {
+      "description": "User presses the icon: the control becomes pressed.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_press"
+        }
+      ]
+    },
+    "pointerup": {
+      "description": "User lifts the pointer from the icon: the control becomes released.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_release"
+        }
+      ]
+    },
+    "pointerleave": {
+      "description": "The pointer leaves the icon while it is pressed: the control becomes released, and no request is made.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "_release"
+        }
+      ]
+    },
+    "click": {
+      "description": "User presses and lifts on the icon to request closing.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "operation": "close"
+        }
+      ]
+    },
+    "keydown": {
+      "description": "User presses Enter or Space on the focused icon to request closing.",
+      "triggers": [
+        {
+          "target": "div.icon",
+          "condition": "key is Enter or Space",
+          "operation": "close"
+        }
+      ]
+    },
+    "hover": {
+      "description": "Changes the button appearance when hovered.",
+      "effects": {
+        "properties": ["background-color", "border-color", "box-shadow", "fill"],
+        "target": "div.icon"
+      }
+    }
+  }
+}
