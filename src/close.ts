@@ -143,7 +143,9 @@ export class Close extends Component implements Meta {
    * @category Configuration
    * @hidden
    */
-  protected _initialize = () => {};
+  protected _initialize = () => {
+    this._reflect(Attributes.STATUS, this._status);
+  };
 
   /**
    * Called by the connectedCallback prototypical method
