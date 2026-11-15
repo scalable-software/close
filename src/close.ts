@@ -162,6 +162,12 @@ export class Close extends Component implements Meta {
   }
 
   /**
+   * Hide the close button when it is visible
+   * @category Operations
+   */
+  public hide = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
