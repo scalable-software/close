@@ -170,6 +170,12 @@ export class Close extends Component implements Meta {
   };
 
   /**
+   * Show the close button when it is hidden
+   * @category Operations
+   */
+  public show = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
