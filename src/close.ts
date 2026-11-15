@@ -150,6 +150,9 @@ export class Close extends Component implements Meta {
 
     // Mutate
     this._appearance = appearance;
+
+    // Reflect
+    this._reflect(Attributes.APPEARANCE, this._appearance, Appearance.FLOATING);
   }
 
   /**
