@@ -13,25 +13,27 @@
   <body>
     <script src="index.js" type="module"></script>
 
-    <div class="stage">
+    <section class="stage">
       <close-button></close-button>
-    </div>
+    </section>
 
     <main class="controls">
-      <section class="operations">
-        <h2>Operations</h2>
-        <div class="buttons"></div>
-      </section>
-
-      <section class="states">
+      <section class="group">
         <h2>States</h2>
-        <dl class="list"></dl>
+        <dl id="states"></dl>
       </section>
 
-      <section class="events">
+      <section class="group">
+        <h2>Operations</h2>
+        <div id="operations" class="buttons"></div>
+      </section>
+
+      <section class="group">
         <h2>Events</h2>
-        <button class="clear" type="button">Clear</button>
-        <ol class="log"></ol>
+        <div class="buttons">
+          <button id="clear" type="button">Clear</button>
+        </div>
+        <ol id="events"></ol>
       </section>
     </main>
   </body>

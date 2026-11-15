@@ -1,4 +1,23 @@
-/* Default Styles (Light Mode) */
+/* Root Variables (Light Mode) */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --muted-color: #5a5a5a;
+  --line-color: #d1d1d1;
+  --surface-color: #f6f6f6;
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1e1e1e;
+    --text-color: #f0f0f0;
+    --muted-color: #a8a8a8;
+    --line-color: #3c3c3c;
+    --surface-color: #262626;
+  }
+}
+
 html {
   height: 100%;
   background-color: var(--background-color);
@@ -15,24 +34,6 @@ body {
   color: inherit;
 }
 
-/* Root Variables */
-:root {
-  --background-color: #ffffff;
-  --text-color: #000000;
-  --line-color: #d1d1d1;
-  --control-background-color: #f3f3f3;
-}
-
-/* Dark Mode Styles */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #1e1e1e;
-    --text-color: #f0f0f0;
-    --line-color: #3c3c3c;
-    --control-background-color: #2a2a2a;
-  }
-}
-
 /* The stage: the component, in a band across the top */
 .stage {
   display: flex;
@@ -46,32 +47,40 @@ body {
 /* The controls: one column for each group, stacked on a narrow window */
 .controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 16px;
   padding: 16px;
 }
 
-.controls section {
+.group {
   min-width: 0;
   padding: 16px;
   border: 1px solid var(--line-color);
   border-radius: 8px;
+  background-color: var(--surface-color);
 }
 
-.controls h2 {
+.group h2 {
   margin: 0 0 12px;
   font-size: 14px;
+  font-weight: 600;
 }
 
-.controls button,
-.controls select {
-  padding: 4px 12px;
-  border: 1px solid var(--line-color);
-  border-radius: 4px;
-  background-color: var(--control-background-color);
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
+/* States */
+#states {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  align-items: center;
+  margin: 0;
+}
+
+#states dt {
+  color: var(--muted-color);
+}
+
+#states dd {
+  margin: 0;
 }
 
 /* Operations */
@@ -81,24 +90,39 @@ body {
   gap: 8px;
 }
 
-/* States */
-.list {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 8px 16px;
-  align-items: center;
-  margin: 0;
+button,
+select {
+  padding: 4px 12px;
+  border: 1px solid var(--line-color);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: inherit;
+  font: inherit;
 }
 
-.list dd {
-  margin: 0;
+button {
+  cursor: pointer;
 }
 
 /* Events */
-.log {
+#events {
   margin: 12px 0 0;
   padding: 0;
   list-style: none;
-  font-family: ui-monospace, monospace;
+}
+
+#events li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 4px 0;
+  border-top: 1px solid var(--line-color);
+}
+
+#events time {
+  color: var(--muted-color);
+}
+
+#events code {
   overflow-wrap: anywhere;
 }
