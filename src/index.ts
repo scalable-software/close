@@ -8,7 +8,8 @@ export {
   Appearance,
   Operation,
   Event,
-  Gesture
+  Gesture,
+  Key
 } from "./close.meta.js";
 
 export { Validate } from "./close.validation.js";
