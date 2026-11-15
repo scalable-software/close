@@ -1,13 +1,13 @@
 /**
- * @module Component
+ * @module Close
  */
 
 // Base Component
 import { Component, Template } from "@scalable.software/component";
 import { type Configuration } from "@scalable.software/component";
 
-// Component Metadata
-import { Tag, CSS, Attributes } from "./component.meta.js";
+// Close Metadata
+import { Tag, CSS, Attributes } from "./close.meta.js";
 
 /**
  * Optional Configuration: required for components with custom layout and style
@@ -24,11 +24,11 @@ export const configuration: Configuration = {
 } as const;
 
 /**
- * @category Component
+ * @category Close
  */
-export class component extends Component {
+export class Close extends Component {
   /**
-   * The tag name of the component
+   * The tag name of the close component
    * @category Configuration
    */
   public static get Tag() {
@@ -44,7 +44,7 @@ export class component extends Component {
   }
 
   /**
-   * Helper function to load the component template into DOM
+   * Helper function to load the close component template into DOM
    * @category Utility
    */
   public static Template = new Template(import.meta.url);
@@ -78,7 +78,7 @@ export class component extends Component {
   protected _cache = () => {};
 
   /**
-   * Initialize component attributes with default values
+   * Initialize close component attributes with default values
    * @category Configuration
    * @hidden
    */

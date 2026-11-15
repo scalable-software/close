@@ -1,16 +1,16 @@
 /**
- * @module Component
+ * @module Close
  */
 
 /**
  * @category Configuration
  */
-export const Tag = "component-template" as const;
+export const Tag = "close-button" as const;
 
 /**
  * @category Configuration
  */
-export const CSS = "component.style.css" as const;
+export const CSS = "close.style.css" as const;
 
 /**
  * HTML Attributes available to set

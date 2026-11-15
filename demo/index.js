@@ -1,5 +1,5 @@
-import { component } from "@scalable.software/component.template";
+import { Close } from "@scalable.software/close";
 
-await component.Template.load("component.template.html");
+await Close.Template.load("close.template.html");
 
-customElements.define(component.Tag, component);
+customElements.define(Close.Tag, Close);

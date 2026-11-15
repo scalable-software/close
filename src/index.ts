@@ -6,6 +6,6 @@ export {
   Operation,
   Event,
   Gesture
-} from "./component.meta.js";
+} from "./close.meta.js";
 
-export { component } from "./component.js";
+export { Close } from "./close.js";
