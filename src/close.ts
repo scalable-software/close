@@ -386,10 +386,10 @@ export class Close extends Component implements Meta {
   private _handleIconClick = () => this.close();
 
   /**
-   * Handles a key pressed on the icon: Enter requests closing
+   * Handles a key pressed on the icon: Enter or Space requests closing
    * @category Gesture
    * @hidden
    */
   private _handleIconKeydown = (event: KeyboardEvent) =>
-    event.key === Key.ENTER && this.close();
+    (event.key === Key.ENTER || event.key === Key.SPACE) && this.close();
 }
