@@ -178,6 +178,12 @@ export class Close extends Component implements Meta {
   };
 
   /**
+   * Request closing
+   * @category Operations
+   */
+  public close = () => {};
+
+  /**
    * List operations to perform for selected attributes being observed in the DOM.
    * @category Configuration
    * @hidden
