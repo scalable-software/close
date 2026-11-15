@@ -158,6 +158,47 @@ composition(Composition.CSS, () => {
   });
 });
 
+composition(Composition.ELEMENT, () => {
+  and("Close is defined in custom element registry", () => {
+    beforeEach(() => {
+      define(Close.Tag, Close);
+    });
+
+    and("HTML Template is added to DOM", () => {
+      beforeEach(async () => {
+        await Close.Template.load("close.template.html");
+      });
+      afterEach(() => {
+        remove(Close.Tag);
+      });
+
+      and("a new close is added to DOM", () => {
+        let close: Close;
+        beforeEach(() => {
+          close = add<Close>(Close.Tag);
+        });
+        afterEach(() => {
+          close.remove();
+        });
+
+        then("`close.elements.icon` is defined", () => {
+          expect(close["elements"].icon).toBeDefined();
+        });
+
+        when("`close.elements.icon` is defined", () => {
+          then(
+            "`close.elements.icon` is a cached reference to the `div` with class `icon`",
+            () => {
+              const icon = close.root.querySelector(".icon") as HTMLDivElement;
+              expect(close["elements"].icon).toBe(icon);
+            }
+          );
+        });
+      });
+    });
+  });
+});
+
 // State
 
 // Operation
