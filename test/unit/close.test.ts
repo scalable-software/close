@@ -560,6 +560,16 @@ state(State.APPEARANCE, () => {
             });
           });
 
+          when("`close.appearance` is set to `null`", () => {
+            beforeEach(() => {
+              close.appearance = null;
+            });
+
+            then("`close.appearance` is `Appearance.FLOATING`", () => {
+              expect(close.appearance).toBe(Appearance.FLOATING);
+            });
+          });
+
           when("`close.appearance` is set to `invalid`", () => {
             let error: Error;
             beforeEach(() => {
