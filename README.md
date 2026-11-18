@@ -109,8 +109,8 @@ For more details on **States**, **Operations**, and **Events**, consult the sect
 
 ### 3.1 Composition
 
-- **Template** (`close.template.html`): Defines DOM structure — a `.icon` container, focusable and announced as a button, holding the SVG icon of a cross.
-- **Style** (`close.style.css`): Encapsulates appearance, including the pressed look, hover effects, the flat appearance, and light/dark theme adaptation.
+- **Template** (`close.template.html`): Defines DOM structure — a `.icon` container, focusable and announced as a button, holding the SVG icon of a cross. Its one style rule, `:host { display: none; }`, keeps the close button hidden until its stylesheet applies, so it is never seen unstyled.
+- **Style** (`close.style.css`): Encapsulates appearance, including the pressed look, hover effects, the flat appearance, and light/dark theme adaptation. Its rule `:host(:defined) { display: inline-block; }` reveals the close button; a stylesheet that replaces this one must carry that rule, or the close button stays hidden.
 - **Class** (`close.ts`): Extends the base component class to handle lifecycle hooks, Shadow DOM creation, attribute reflection, and event dispatch.
 
 > **Separation of Concerns**
